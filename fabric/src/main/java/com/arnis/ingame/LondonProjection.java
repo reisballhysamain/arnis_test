@@ -9,6 +9,7 @@ public final class LondonProjection {
     private static final double EARTH_RADIUS_METERS = 6_371_000.0;
     private static final double SCALE = Math.cos(Math.toRadians(ORIGIN_LATITUDE));
     private static final double ORIGIN_MERCATOR_Y = mercatorY(ORIGIN_LATITUDE);
+    private static final WorldBounds REAL_WORLD_BOUNDS = calculateRealWorldBounds();
 
     private LondonProjection() {}
 
@@ -53,6 +54,21 @@ public final class LondonProjection {
             && Math.abs(longitude) <= 180.0;
     }
 
+    public static WorldBounds realWorldBounds() {
+        return REAL_WORLD_BOUNDS;
+    }
+
+    private static WorldBounds calculateRealWorldBounds() {
+        WorldPoint northWest = project(MAX_LATITUDE, -180.0);
+        WorldPoint southEast = project(-MAX_LATITUDE, 180.0);
+        return new WorldBounds(
+            northWest.x(),
+            northWest.z(),
+            southEast.x(),
+            southEast.z()
+        );
+    }
+
     private static double clampLatitude(double latitude) {
         return Math.max(-MAX_LATITUDE, Math.min(MAX_LATITUDE, latitude));
     }
@@ -65,4 +81,18 @@ public final class LondonProjection {
     public record WorldPoint(double x, double z) {}
 
     public record GeoPoint(double latitude, double longitude) {}
+
+    public record WorldBounds(double minX, double minZ, double maxX, double maxZ) {
+        public double centerX() {
+            return (minX + maxX) / 2.0;
+        }
+
+        public double centerZ() {
+            return (minZ + maxZ) / 2.0;
+        }
+
+        public double borderSize() {
+            return Math.max(maxX - minX, maxZ - minZ);
+        }
+    }
 }

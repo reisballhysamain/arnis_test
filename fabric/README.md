@@ -5,6 +5,7 @@ origin at central London. It targets Java 17:
 
 - London (`51.5074, -0.1278`) maps to Minecraft X/Z `(0, 0)`.
 - East is positive X; north is negative Z.
+- On first startup, the Overworld border is set to the full supported real-world map bounds. This default is saved and does not overwrite later border changes.
 - New and existing worlds spawn on the surface at X/Z `(0, 0)`.
 - As Overworld chunks load, the mod requests a 512-block geographic tile and
   builds mapped roads, waterways, water areas, and building footprints on the
@@ -16,6 +17,16 @@ origin at central London. It targets Java 17:
 - `/arnis coordinates` reports the geographic location, `/arnis status` reports
   tile progress, `/arnis retry` retries failed tiles around the player, and
   `/arnis attribution` displays the required OpenStreetMap credit.
+- `/arnis teleport <latitude> <longitude>` teleports the player to the
+  projected real-world location, above the local terrain. The command is
+  limited to the Overworld and coordinates within the supported Web Mercator
+  map.
+- Operators can use `/arnis border <diameter>` to set the Overworld border,
+  centered on the supported map bounds, from 16 blocks up to Minecraft's world
+  border maximum. `/arnis border loop true` enables edge wrapping;
+  `/arnis border loop false` disables it. The loop setting is saved with the
+  world. East/west crossings wrap around the map; north/south crossings turn
+  back at the same pole on the opposite longitude.
 - `LondonProjection.chunkCenter` and `LondonProjection.project` expose the
   world/geographic coordinate conversion used by chunk requests.
 

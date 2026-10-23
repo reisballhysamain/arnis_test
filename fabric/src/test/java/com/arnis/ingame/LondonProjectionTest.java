@@ -71,6 +71,22 @@ final class LondonProjectionTest {
     }
 
     @Test
+    void realWorldBoundsCoverTheEntireSupportedProjection() {
+        LondonProjection.WorldBounds bounds = LondonProjection.realWorldBounds();
+        for (double latitude : new double[] {-LondonProjection.MAX_LATITUDE, LondonProjection.MAX_LATITUDE}) {
+            for (double longitude : new double[] {-180.0, 180.0}) {
+                LondonProjection.WorldPoint point = LondonProjection.project(latitude, longitude);
+
+                assertTrue(point.x() >= bounds.minX() - 1e-6);
+                assertTrue(point.x() <= bounds.maxX() + 1e-6);
+                assertTrue(point.z() >= bounds.minZ() - 1e-6);
+                assertTrue(point.z() <= bounds.maxZ() + 1e-6);
+            }
+        }
+        assertTrue(bounds.borderSize() <= LondonProjection.WORLD_BORDER * 2.0);
+    }
+
+    @Test
     void excludesOnlyCoordinatesOutsideTheMercatorWorldCoverage() {
         assertFalse(LondonProjection.isSupportedLocation(90.0, 0.0));
         assertTrue(LondonProjection.isSupportedLocation(85.0, 180.0));

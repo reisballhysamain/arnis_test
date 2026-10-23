@@ -17,10 +17,15 @@ import org.slf4j.LoggerFactory;
 public final class ArnisInGame implements ModInitializer {
     public static final String MOD_ID = "arnis_ingame";
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    private static final WorldBorderLoop WORLD_BORDER_LOOP = new WorldBorderLoop();
     private static volatile WorldTileService tileService;
 
     static WorldTileService tileService() {
         return tileService;
+    }
+
+    static WorldBorderLoop worldBorderLoop() {
+        return WORLD_BORDER_LOOP;
     }
 
     @Override
@@ -46,6 +51,7 @@ public final class ArnisInGame implements ModInitializer {
             if (service != null) {
                 service.tick();
             }
+            WORLD_BORDER_LOOP.tick(server);
         });
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             ArnisCommands.register(dispatcher)
@@ -53,6 +59,17 @@ public final class ArnisInGame implements ModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             ServerWorld overworld = server.getOverworld();
+            ArnisWorldState worldState = ArnisWorldState.get(overworld);
+            if (!worldState.isBorderInitialized()) {
+                LondonProjection.WorldBounds bounds = LondonProjection.realWorldBounds();
+                overworld.getWorldBorder().setCenter(bounds.centerX(), bounds.centerZ());
+                overworld.getWorldBorder().setSize(bounds.borderSize());
+                worldState.setBorderInitialized();
+                LOGGER.info(
+                    "Set the default world border to {} blocks to cover the supported real-world map.",
+                    bounds.borderSize()
+                );
+            }
             WorldTileService previous = tileService;
             if (previous != null) {
                 previous.close();
@@ -70,6 +87,7 @@ public final class ArnisInGame implements ModInitializer {
             );
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
+            WORLD_BORDER_LOOP.clear();
             WorldTileService service = tileService;
             tileService = null;
             if (service != null) {
