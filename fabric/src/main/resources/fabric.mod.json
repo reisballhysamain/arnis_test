@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "arnis_ingame",
+  "version": "${version}",
+  "name": "Arnis In-Game",
+  "description": "A Fabric foundation for an expandable, London-centered Arnis world.",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.arnis.ingame.ArnisInGame"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}

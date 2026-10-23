@@ -41,6 +41,11 @@ This project is open source and welcomes contributions from everyone! Whether yo
 Command line Build: ```cargo run --release --no-default-features -- --output-dir="C:/YOUR_PATH/.minecraft/saves/worldname" --bbox="min_lat,min_lng,max_lat,max_lng"```<br>
 GUI Build: ```cargo run --release```<br>
 
+A Fabric 1.20.1 in-game mod is available in [`fabric/`](fabric/README.md). It anchors
+central London at Minecraft X/Z `(0, 0)` and overlays cached OpenStreetMap roads,
+waterways, water areas, and building footprints as Overworld chunks load. Vanilla terrain
+remains in place; elevation-based terrain generation is not yet included.
+
 `--mode` selects what gets generated, mirroring the GUI's generation mode dropdown:
 
 | Mode | Result |

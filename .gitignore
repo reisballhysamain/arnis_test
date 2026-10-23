@@ -44,6 +44,9 @@ Thumbs.db
 
 /gen/
 /build/
+/fabric/.gradle/
+/fabric/build/
+/fabric/run/
 *.rmeta
 *.dSYM
 
