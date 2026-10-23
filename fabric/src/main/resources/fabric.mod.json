@@ -3,7 +3,7 @@
   "id": "arnis_ingame",
   "version": "${version}",
   "name": "Arnis In-Game",
-  "description": "A Fabric foundation for an expandable, London-centered Arnis world.",
+  "description": "An expandable, London-centered Arnis world with bundled Fabric API.",
   "environment": "*",
   "entrypoints": {
     "main": [

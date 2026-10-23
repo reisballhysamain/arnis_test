@@ -36,10 +36,11 @@ Install JDK 17 and Gradle 8.7, then from this directory run:
 gradle build
 ```
 
-Copy `build/libs/arnis-fabric-0.1.0.jar` into the `mods` folder of a Minecraft
-1.20.1 Fabric installation with Fabric API installed. Create a new world or
-open an existing one; the mod sets its spawn to the London origin. Internet
-access is needed the first time each tile is visited.
+Copy `build/libs/arnis-fabric-0.1.1.jar` into the `mods` folder of a Minecraft
+1.20.1 Fabric installation. Fabric API is bundled inside this mod, so Prism
+does not need a separate Fabric API mod. Create a new world or open an existing
+one; the mod sets its spawn to the London origin. Internet access is needed the
+first time each tile is visited.
 
 The world map uses the same spherical Web Mercator scale adjustment as Arnis's
 existing `--one-world` projection, anchored to central London.

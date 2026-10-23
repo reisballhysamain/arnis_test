@@ -44,7 +44,8 @@ GUI Build: ```cargo run --release```<br>
 A Fabric 1.20.1 in-game mod is available in [`fabric/`](fabric/README.md). It anchors
 central London at Minecraft X/Z `(0, 0)` and overlays cached OpenStreetMap roads,
 waterways, water areas, and building footprints as Overworld chunks load. Vanilla terrain
-remains in place; elevation-based terrain generation is not yet included.
+remains in place; elevation-based terrain generation is not yet included. Fabric API is
+bundled with the mod jar.
 
 `--mode` selects what gets generated, mirroring the GUI's generation mode dropdown:
 
